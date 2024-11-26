@@ -1,5 +1,123 @@
+## Some simple insights I looked for
+
 1. Emergency Admissions
-
 The first question I explored was the list of patients admitted for “Emergency” cases. This helped in understanding the frequency and type of emergency admissions:
+Find the names and ages of all patients admitted for “Emergency” cases.
+Query: 
+SELECT NAME, AGE FROM HEALTH_CARE
+WHERE ADMISSION_TYPE='EMERGENCY';
 
-### Find the names and ages of all patients admitted for “Emergency” cases.
+2. Unique Blood Types
+Next, I explored the distinct blood types available in the dataset. This query sorted the blood types alphabetically:
+List the unique blood types available in the dataset, sorted alphabetically.
+Query:
+SELECT DISTINCT BLOOD_TYPE FROM HEALTH_CARE
+ORDER BY BLOOD_TYPE;
+
+3. Average Billing for Cancer Patients
+To calculate the average billing amount for patients with “Cancer” as a medical condition, I used the following query. Understanding billing patterns for specific conditions is critical for hospital management:
+Calculate the average billing amount for patients with “Cancer” as a medical condition.
+Query:
+SELECT AVG(BILLING_AMOUNT) AS AVG_BILLING_AMOUNT FROM HEALTH_CARE
+WHERE MEDICAL_CONDITION='CANCER';
+
+4.Top Hospitals by Admissions
+Identifying the top hospitals by the number of admissions helped in recognizing which hospitals handle the highest patient loads:
+Display the top 5 hospitals by the number of admissions.
+Query:
+SELECT HOSPITAL, COUNT(*) AS NO_OF_PATIENTS FROM HEALTH_CARE
+GROUP BY HOSPITAL
+ORDEY BY NO_OF_PATIENTS DESC
+LIMIT 5;
+
+## Diving Deeper: Moderate Queries
+
+1. Total Billing by Hospital
+Calculating the total billing for each hospital was one of the interesting queries to work on. This query also sorts the hospitals by their total billing amounts in descending order:
+Calculate the total billing amount for each hospital and sort it in descending order.
+Query:
+SELECT HOSPITAL, SUM(BILLING_AMOUNT) AS TOTAL_BILLING_AMOUNT FROM HEALTH_CARE
+GROUP BY HOSPITAL
+ORDER BY TOTAL_BILLING_AMOUNT DESC;
+
+2. Patients Treated by Multiple Doctors
+Healthcare can often require consultations from multiple specialists. I queried the dataset to find patients who were treated by more than one doctor:
+Find all patients who have been treated by more than one doctor.
+Query:
+SELECT NAME, COUNT(DOCTOR) AS COUNT_DOCTOR FROM HEALTH_CARE
+GROUP BY NAME
+HAVING COUNT(DOCTOR)>1
+ORDER BY NAME;
+
+## Advanced Insights with Hard Queries
+
+1. Patient Readmissions
+One of the more advanced queries identified patients who were readmitted to the same hospital, which is a crucial metric for patient care quality:
+Write a query to find patients who have been readmitted to the same hospital (admitted more than once).
+Query:
+SELECT NAME, HOSPITAL, COUNT(HOSPITAL) AS READMITTED_PATIENTS FROM HEALTH_CARE
+GROUP BY NAME, HOSPITAL
+HAVING COUNT(HOSPITAL)>1
+ORDER BY NAME;
+
+2. Ranking Hospitals by Billing Using Window Functions
+I used window functions to rank hospitals based on their total billing amount:
+Use a window function to rank hospitals based on their total billing amount.
+Query:
+SELECT HOSPITAL, SUM(BILLING_AMOUNT) AS TOTAL_BILLING_AMOUNT, RANK() OVER(ORDER BY SUM(BILLING_AMOUNT) DESC) AS HOSPITAL_RANK
+FROM HEALTH_CARE
+GROUP BY HOSPITAL;
+
+3. Top Doctors Handling Diverse Conditions
+Understanding which doctors handle the most diverse range of medical conditions is crucial for hospital staffing. I used this query to identify the top doctors who handled various conditions:
+Generate a list of the top 5 doctors who have handled the most diverse range of medical conditions.
+Query:
+SELECT DOCTOR, COUNT(DISTINCT MEDICAL_CONDITION) AS CONDITION_COUNT
+FROM HEALTH_CARE
+GROUP BY DOCTOR
+HAVING COUNT(DISTINCT MEDICAL_CONDITION) = (
+SELECT COUNT(DISTINCT MEDICAL_CONDITION)
+FROM HEALTH_CARE)
+ORDER BY CONDITION_COUNT DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
