@@ -3,7 +3,7 @@
 ## Dataset Information:
 Each column provides specific information about the patient, their admission, and the healthcare services provided, making this dataset suitable for various data analysis and modeling tasks in the healthcare domain. Here's a brief explanation of each column in the dataset -
 
-Name: This column represents the name of the patient associated with the healthcare record.
+Name: This column represents the name of the patient associated with the healthcare record. \n
 Age: The age of the patient at the time of admission, expressed in years.
 Gender: Indicates the gender of the patient, either "Male" or "Female."
 Blood Type: The patient's blood type, which can be one of the common blood types (e.g., "A+", "O-", etc.).
